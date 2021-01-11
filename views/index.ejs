@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+  
+    <title>Major Assignment</title>
+
+  </head>
+  <body>
+   
+
+   
+   
+	<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header">
+		<h1>Student Wellness</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+    
+    
+    	<h2>Welcome</h2>
+		<p>Sign in / Register Here</p>
+
+        
+         Student ID: <input type="text" id="student_id" name="student_id"></input>
+         Password: <input type="password" id="password" name="password"></input>
+         <button id="registerNew" class="ui-btn">Register</button>
+         <button id="login" class="ui-btn">Login</button>
+     
+		
+	</div><!-- /content -->
+
+	<div data-role="footer" data-theme="a">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page one -->
+
+
+
+<!-- Start of student page: #two -->
+<div data-role="page" id="student" data-theme="a">
+
+	<div data-role="header">
+		<h1>Welcome Student</h1>
+		
+		
+		
+		</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<h2>Hello Student!</h2>
+		
+		<ul>
+			<li><a href="#student">Home</a></li>
+			<li><a href="#survey">Survey</a></li>
+			<li><a href="#graph">Graph</a></li>
+			<li><a href="#account">Account</a></li>
+		</ul>
+
+
+
+<button onclick=”logout()”>Logout</button>
+
+<script>
+function logout()
+	{
+	Window.location=”/”;
+	}
+</script>
+
+ </div>		
+		
+
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+<!--End of student Page-->
+
+<!-- Start of survey page: -->
+<div data-role="page" id="survey" data-theme="a">
+
+		<div data-role="header">
+		<h1>Survey Page</h1>
+		
+		</div>
+		
+			<div role="main" class="ui-content">
+		<h2>Hello Student!</h2>
+		<p>This is the survey page!</p>
+		
+
+
+
+
+<button onclick=”logout()”>Logout</button>
+
+<script>
+function logout()
+	{
+	Window.location=”/”;
+	}
+</script>
+</div>	
+</div>
+
+<!-- Start of graph page: -->
+<div data-role="page" id="graph" data-theme="a">
+
+		<div data-role="header">
+		<h1>Graph Page</h1>
+		
+		</div>
+		
+			<div role="main" class="ui-content">
+		<h2>Hello Student!</h2>
+		<p>This is the Graph Page!</p>
+		
+
+
+
+
+<button onclick=”logout()”>Logout</button>
+
+<script>
+function logout()
+	{
+	Window.location=”/”;
+	}
+</script>
+</div>	
+</div>
+
+<!-- Start of account page: -->
+<div data-role="page" id="account" data-theme="a">
+
+		<div data-role="header">
+		<h1>Account Page</h1>
+		
+		</div>
+		
+			<div role="main" class="ui-content">
+		<h2>Hello Student!</h2>
+		<p>This is your Account Page!</p>
+		
+
+
+
+
+<button onclick=”logout()”>Logout</button>
+
+<script>
+function logout()
+	{
+	Window.location=”/”;
+	}
+</script>
+</div>	
+</div>
+
+
+
+
+<!-- Start of staff page: #two -->
+<div data-role="page" id="staff" data-theme="a">
+
+	<div data-role="header">
+		<h1>Staff Page</h1>
+	</div><!-- /header -->
+	
+	
+
+	<div role="main" class="ui-content">
+		<h2>Welocme Staff</h2>
+	
+	
+	<button onclick=”logout()”> Logout </button>
+
+ <script>
+function logout()
+	{
+	Window.location=”/”;
+	}
+</script>
+
+ 
+    </div><!-- /content -->
+	
+	<!--End of staff page-->
+	
+	
+  
+ <script>
+  
+  $("#login").click(function(e) {
+	  console.log("clicked");
+
+       // get the username and the password
+      var sd = $("#student_id").val();
+      var pw = $("#password").val();
+      
+      
+       // AJAX POST to the /login page 
+
+      $.post( "/login", { student_id: sd, password: pw })
+      .done(function( data ) {
+            alert( "login now?: " + data );
+            
+            if(data.includes('student')){
+                 // redirect to the customer page.
+                 window.location="/#student";
+            }
+			     // redirect to the cook page
+            else if(data.includes('staff')){
+			     window.location="/#staff";
+            }
+            
+      });
+  
+  
+  });
+ </script>
+ 
+ 
+ <script>
+    $("#registerNew").click(function(e) {
+        
+ 
+        // Get the username and the password
+        var sd = $("#student_id").val();
+        var pw = $("#password").val();
+ 
+      // send data to the server side.
+      $.post( "/register", { student_id: sd, password: pw })
+      .done(function( data ) {
+            alert( "Signed UP!: " + data );
+			
+			window.location="/#student";
+		 });
+
+		 });
+</script>
+</body>
+</html>
