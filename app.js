@@ -47,7 +47,7 @@ app.post('/register', function(req,res){
   
   
   console.log("student id = "+ student_id);
-  console.log("Password = "+ pass);
+  console.log("password = "+ pass);
   
   // Connect to the database
   var mysql = require('mysql')
@@ -62,6 +62,7 @@ app.post('/register', function(req,res){
   connection.connect(function(err){
     console.log("Connected!");
     connection.query("INSERT INTO `users`(`student_id`,`password`, `acctype`) VALUES ('"+student_id+"','"+pass+"', 'student')");
+
 
   
  });
