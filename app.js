@@ -39,6 +39,8 @@ app.get('/getSomething', function(req, res, next) {
   res.send('hello' + req.session.name);
 });
 
+
+//Registration Form
 app.post('/register', function(req,res){
 	
   // catching the data from the POST
@@ -59,19 +61,18 @@ app.post('/register', function(req,res){
     database : 'wellness'
   });
 
-  connection.connect(function(err){
+    connection.connect(function(err){
     console.log("Connected!");
     connection.query("INSERT INTO `users`(`student_id`,`password`, `acctype`) VALUES ('"+student_id+"','"+pass+"', 'student')");
+    connection.end();
 
-
-  
  });
 
-    connection.end();
+
 });
 
 
-
+//Login Form
 app.post('/login',function(req,res){
 	
     // catching the data from the POST
@@ -105,6 +106,55 @@ app.post('/login',function(req,res){
 
       connection.end();
  });
+
+app.post('/submit', function(req,res){
+
+    // catching the data from the POST
+    var q1=req.body.Q1;
+    var q2=req.body.Q2;
+    var q3=req.body.Q3;
+    var q4=req.body.Q4;
+    var q5=req.body.Q5;
+    var q6=req.body.Q6;
+    var q7=req.body.Q7;
+    var q8=req.body.Q8;
+    var q9=req.body.Q9;
+    var q10=req.body.Q10;
+
+
+
+    console.log("Question 1 = "+ q1);
+    console.log("Question 2 = "+ q2);
+    console.log("Question 3 = "+ q3);
+    console.log("Question 4 = "+ q4);
+    console.log("Question 5 = "+ q5);
+    console.log("Question 6 = "+ q6);
+    console.log("Question 7 = "+ q7);
+    console.log("Question 8 = "+ q8);
+    console.log("Question 9 = "+ q9);
+    console.log("Question 10 = "+ q10);
+
+    // Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        port : 3306,
+        database : 'wellness'
+    });
+
+    connection.connect(function(err){
+        console.log("Connected!");
+        connection.query("INSERT INTO `survey`(`question1`,`question2`, `question3`, `question4`, `question5`, `question6`, `question7`, `question8`, `question9`, `question10`) VALUES ('"+q1+"','"+q2+"', '"+q3+"', '"+q4+"', '"+q5+"', '"+q6+"', '"+q7+"', '"+q8+"', '"+q9+"', '"+q10+"')");
+        alert("Survey Submited");
+        connection.end();
+
+
+    });
+
+
+});
  
 
 
