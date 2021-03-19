@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-  
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/stylesheets/style.css" />
 
 
   
     <title>Major Assignment</title>
-
 
   </head>
   <body>
@@ -20,21 +23,21 @@
 	<!-- Start of first page: #one -->
 <div data-role="page" id="one">
 
-	<div data-role="header">
-		<h1>Student Wellness</h1>
+	<div class="header" data-role="header">
+		<h1 class="p1">Student Wellness</h1>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content">
     
     
-    	<h2>Welcome</h2>
-		<p>Sign in / Register Here</p>
+    	<h2 class="p1">Welcome</h2>
+		<p class="p1">Sign in / Register Here</p>
 
         
-         Student ID: <input type="text" id="student_id" name="student_id"></input>
-         Password: <input type="password" id="password" name="password"></input>
-         <button id="registerNew" class="ui-btn">Register</button>
-         <button id="login" class="ui-btn">Login</button>
+         Email: <input class="p1" type="text" id="student_id" name="student_id"></input>
+         Password: <input class="p1" type="password" id="password" name="password"></input>
+         <button  class="p1" id="registerNew" class="ui-btn">Register</button>
+         <button class="p1" id="login" class="ui-btn">Login</button>
      
 		
 	</div><!-- /content -->
@@ -50,25 +53,42 @@
 <div data-role="page" id="student" data-theme="a">
 
 	<div data-role="header">
-		<h1>Welcome Student</h1>
+		<h1 class="p1">Welcome Student</h1>
 		
 		
 		
 		</div><!-- /header -->
 
-	<div role="main" class="ui-content">
-		<h2>Hello Student!</h2>
 		
-		<ul>
-			<li><a href="#student">Home</a></li>
-			<li><a href="#survey">Survey</a></li>
-			<li><a href="#graph">Graph</a></li>
-			<li><a href="#account">Account</a></li>
-		</ul>
+
+	<div role="main" class="ui-content">
 
 
+		
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-<button onclick=”logout()” >Logout </button>
+
+  <div class="collapse navbar-collapse" id="">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>	<div class="timemove" id="time"></div>
+  </div>
+</nav>
+	    <h2 class="p1">Hello Student!</h2>
+
+        <button onclick="logout()">Logout</button>
 
 
 
@@ -88,27 +108,52 @@
 <div data-role="page" id="survey" data-theme="a">
 
 		<div data-role="header">
-		<h1>Survey Page</h1>
+		<h1 class="p1">Survey Page</h1>
+
+
 		
 		</div>
+
+	 
 		
-			<div role="main" class="ui-content">
-		<h2>Hello Student!</h2>
-		<h3>This is the survey page!</h3>
-		<p>Take the Survey?</p>
-		<ul>
-	    <li><a href="#takeSurvey" >Survey</a></li>
-	    </ul>
-		
+	<div role="main" class="ui-content">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
 
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#takeSurvey">Take Survey
+         <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>
+  </div>
+</nav>
 
-        <button onclick=”logout()” >Logout</button>
+        <h2 class="p1">Hello Student!</h2>
+		<p class="p1">This is the survey page!</p>
 
+		<div id="viewsurvey">
 
+		</div>
 
-</div>	
+		<button id="View">View Selected Survey</button>
+
 </div>
+<button onclick="logout()">Logout</button>
+</div>
+
+
+
 
 <div data-role="page" id="takeSurvey" data-theme="a">
 
@@ -117,88 +162,409 @@
 
 		</div>
 
-	    <div role="main" class="ui-content">
-
-	    <form action="/my-handling-form-page" method="POST"> <!-- Using a form to display the survey -->
-
-	      <li>
-            <label for="Q1">Q1: How are you finding college life?</label>
-            <input type="text" id="Q1" name="Q1">
-          </li>
-          <li>
-            <label for="Q2">Q2: How do you travel to college?</label>
-            <input type="text" id="Q2" name="Q2">
-          </li>
-          <li>
-            <label for="Q3">Q3: Do you find any of the modules hard?</label>
-            <input type="text" id="Q3" name="Q3">
-          </li>
-          <li>
-            <label for="Q4">Q4: </label>
-            <input type="text" id="Q4" name="Q4">
-          </li>
-          <li>
-            <label for="Q5">Q5: </label>
-            <input type="text" id="Q5" name="Q5">
-          </li>
-          <li>
-            <label for="Q6">Q6: </label>
-            <input type="text" id="Q6" name="Q6">
-          </li>
-          <li>
-            <label for="Q7">Q7: </label>
-            <input type="text" id="Q7" name="Q7">
-          </li>
-          <li>
-            <label for="Q8">Q8: </label>
-            <input type="text" id="Q8" name="Q8">
-          </li>
-          <li>
-            <label for="Q9">Q9: </label>
-            <input type="text" id="Q9" name="Q9">
-         </li>
-         <li>
-            <label for="Q10">Q10: </label>
-            <input type="text" id="Q10" name="10">
-         </li>
-         </ul>
-           </form><!-- end of form-->
-         <button type="submit" id="submitSurvey" class="ui-btn" >Submit</button>
+	  
+<div role="main" class="ui-content">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
 
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey
+         <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>
+  </div>
+</nav>
+
+		
+		
+		<button id="hide">Hide Survey</button>
+	    <form action="/my-handling-form-page" id="form01" method="POST"> <!-- Using a form to display the survey -->
+
+
+	<div class="Q1">
+	<label for="Q1">Q1: How are you adjusting to college life?</label>
+
+         <input type="radio" id="good" name="college_life" value=1>
+         <label for="good">Good</label><br>
+         <input type="radio" id="neutral" name="college_life" value=2>
+         <label for="neutral">No Opinion</label><br>
+         <input type="radio" id="bad" name="college_life" value=3>
+         <label for="bad">Awful</label>
+    </div>
+
+    <div class="Q2">
+    <label for="Q2">Q2: How do you travel to college?</label>
+
+          <input type="radio" id="car" name="college_life01" value=1>
+          <label for="car">Car</label><br>
+          <input type="radio" id="bus" name="college_life01" value=2>
+          <label for="bus">Bus</label><br>
+          <input type="radio" id="walking" name="college_life01" value=3>
+          <label for="walking">Walking</label>
+    </div>
 
 
 
 
 
-<button onclick=”logout()” >Logout</button>
 
-
+                <ul>
+     		    <a class="nextpage" href="#nextPage">Next Page</a>
+     		    </ul>
+           <button onclick="logout()">Logout</button>
 
 </div>
 </div>
+
+
+
+
+<div data-role="page" id="nextPage" data-theme="a">
+
+		<div data-role="header">
+		<h1>Survey</h1>
+
+		</div>
+
+
+<div role="main" class="ui-content">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey
+         <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>
+  </div>
+</nav>
+
+
+
+		<button id="hide1">Hide Survey</button>
+	    <form action="/my-handling-form-page" id="form01" method="POST"> <!-- Using a form to display the survey -->
+
+
+	<div class="Q3">
+	<label for="Q3">Q3: What motivates you to learn?</label>
+
+         <input type="radio" id="ask" name="college_life02" value=1>
+         <label for="ask">Asking a lot of questions to the teacher</label><br>
+         <input type="radio" id="assignment" name="college_life02" value=2>
+         <label for="assignment">Completing various assignments</label><br>
+         <input type="radio" id="sports" name="college_life02" value=3>
+         <label for="sports">Sports and other extracurricular activities</label>
+    </div>
+
+    <div class="Q4">
+    <label for="Q4">Q4: Does your lecturer encourage you to perform better?</label>
+
+          <input type="radio" id="yes" name="college_life03" value=1>
+          <label for="yes">Yes</label><br>
+          <input type="radio" id="sometimes" name="college_life03" value=2>
+          <label for="sometimes">Only sometimes</label><br>
+          <input type="radio" id="no" name="college_life03" value=3>
+          <label for="no">No</label>
+    </div>
+
+            <a class="prevpage"  href="#takeSurvey" >Previous Page</a>
+            <a class="nextpage" href="#nextPage1" >Next Page</a>
+
+
+           <button onclick="logout()">Logout</button>
+
+</div>
+</div>
+
+
+
+<div data-role="page" id="nextPage1" data-theme="a">
+
+		<div data-role="header">
+		<h1>Survey</h1>
+
+		</div>
+
+
+<div role="main" class="ui-content">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey
+         <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>
+  </div>
+</nav>
+
+
+
+		<button id="hide1">Hide Survey</button>
+	    <form action="/my-handling-form-page" id="form01" method="POST"> <!-- Using a form to display the survey -->
+
+
+	<div class="Q5">
+	<label for="Q5">Q5: Does your lecturer guide you in setting personal targets and developing strategies to achieve that target?</label>
+
+         <input type="radio" id="work" name="college_life04" value=1>
+         <label for="work">Yes, she/he always appreciates my hard work</label><br>
+         <input type="radio" id="sometimes01" name="college_life04" value=2>
+         <label for="sometimes01">Only sometimes</label><br>
+         <input type="radio" id="work_null" name="college_life04" value=3>
+         <label for="work_null">No, she/he never appreciates my hard work</label>
+    </div>
+
+    <div class="Q6">
+    <label for="Q6">Q6: Do you get along with fellow students?</label>
+
+          <input type="radio" id="yes01" name="college_life05" value=1>
+          <label for="yes01">Yes</label><br>
+          <input type="radio" id="sometimes02" name="college_life05" value=2>
+          <label for="sometimes02">Only sometimes</label><br>
+          <input type="radio" id="no01" name="college_life05" value=3>
+          <label for="no01">No</label>
+    </div>
+
+             <a  class="prevpage" href="#nextPage" >Previous Page</a>
+             <a class="nextpage" href="#nextPage2" >Next Page</a>
+
+
+
+           <button onclick="logout()">Logout</button>
+
+</div>
+</div>
+
+
+
+
+<div data-role="page" id="nextPage2" data-theme="a">
+
+		<div data-role="header">
+		<h1>Survey</h1>
+
+		</div>
+
+
+<div role="main" class="ui-content">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey
+         <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>
+  </div>
+</nav>
+
+
+
+		<button id="hide1">Hide Survey</button>
+	    <form action="/my-handling-form-page" id="form01" method="POST"> <!-- Using a form to display the survey -->
+
+
+	<div class="Q7">
+	<label for="Q7">Q7: Does you have a drivers license?</label>
+
+         <input type="radio" id="yes02" name="college_life06" value=1>
+         <label for="yes02">Yes</label><br>
+         <input type="radio" id="i_will" name="college_life06" value=2>
+         <label for="i_will">No, but I will</label><br>
+         <input type="radio" id="no02" name="college_life06" value=3>
+         <label for="no02">No</label>
+    </div>
+
+    <div class="Q8">
+    <label for="Q8">Q8: Do you find any of the modules difficult?</label>
+
+          <input type="radio" id="yes03" name="college_life07" value=1>
+          <label for="yes03">Yes</label><br>
+          <input type="radio" id="sometimes03" name="college_life07" value=2>
+          <label for="sometimes03">Only sometimes</label><br>
+          <input type="radio" id="no03" name="college_life07" value=3>
+          <label for="no03">No</label>
+    </div>
+
+             <a  class="prevpage" href="#nextPage1" >Previous Page</a>
+             <a class="nextpage" href="#nextPage3" >Next Page</a>
+
+
+
+           <button onclick="logout()">Logout</button>
+
+</div>
+</div>
+
+
+
+<div data-role="page" id="nextPage3" data-theme="a">
+
+		<div data-role="header">
+		<h1>Survey</h1>
+
+		</div>
+
+
+<div role="main" class="ui-content">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey
+         <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>
+  </div>
+</nav>
+
+
+
+		<button id="hide1">Hide Survey</button>
+	    <form action="/my-handling-form-page" id="form01" method="POST"> <!-- Using a form to display the survey -->
+
+
+	<div class="Q9">
+	<label for="Q9">Q9: Do you require extra support?</label>
+
+         <input type="radio" id="yes04" name="college_life08" value=1>
+         <label for="yes04">Yes</label><br>
+         <input type="radio" id="no04" name="college_life08" value=2>
+         <label for="no04">No</label>
+    </div>
+
+    <div class="Q10">
+    <label for="Q10">Q10: How do you eat for lunch?</label>
+
+          <input type="radio" id="canteen" name="college_life09" value=1>
+          <label for="canteen">Canteen</label><br>
+          <input type="radio" id="lunch" name="college_life09" value=2>
+          <label for="lunch">Pack Lunch</label><br>
+          <input type="radio" id="town" name="college_life09" value=3>
+          <label for="town">Go into Town</label>
+    </div>
+
+           <a  class="prevpage" href="#nextPage2" >Previous Page</a>
+
+		   <button type="submit" id="submitSurvey" class="ui-btn" >Submit</button>
+
+
+           <button onclick="logout()">Logout</button>
+
+</div>
+</div>
+
+
+
+</form><!-- end of form-->
+
+
+
+
 
 <!-- Start of graph page: -->
 <div data-role="page" id="graph" data-theme="a">
 
 		<div data-role="header">
 		<h1>Graph Page</h1>
+	
 		
-		</div>
 		
-			<div role="main" class="ui-content">
-		<h2>Hello Student!</h2>
-		<p>This is the Graph Page!</p>
+</div>
+
+
+	
+		
+<div role="main" class="ui-content">
+		
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph
+         <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account</a>
+      </li>
+  </div>
+</nav>
+
+        <h2 class="p1">Hello Student!</h2>
+		<p class="p1">This is the Graph Page!</p>
+
+
+		
 		
 
 
 
+	
 
-<button onclick=”logout()” >Logout</button>
+  <button onclick="logout()">Logout</button>
 
 
 
-</div>	
+</div>
 </div>
 
 <!-- Start of account page: -->
@@ -207,60 +573,156 @@
 		<div data-role="header">
 		<h1>Account Page</h1>
 		
-		</div>
-		
-			<div role="main" class="ui-content">
-		<h2>Hello Student!</h2>
-		<p>This is your Account Page!</p>
+</div>
 
-		<div>
+	   
+		
+<div role="main" class="ui-content">
+		
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#student">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#survey">Survey</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#graph">Graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#account">Account
+         <span class="sr-only">(current)</span></a>
+      </li>
+  </div>
+</nav>
+
+        <h2 class="p1">Hello Student!</h2>
+        <p class="p1">This is your Account Page!</p>
+
+		      
+        
+		<div id="messagedata">
 		<h3 style="padding: 10px; border: 2px solid black; text-align: center">Message of Day</h3>
-		<center><p id="forStudents" style="padding: 10px; border: 4px solid black; width: 250px; height: 250px;"></p></center>
-
-
-
-		</div>
+		<center><p id="forStudents" style="padding: 10px; border: 4px solid black; width: 250px; height: 250px;"></p></center></div>
 		
 
+		
+        </div>	
+		<button onclick="logout()">Logout</button>
+	
 
 
 
-        <button onclick=”logout()” >Logout</button>
-
-
-
-</div>	
 </div>
 
 
-<!-- Start of staff page: #two -->
+<!-- Start of staff page: #one_staff -->
 <div data-role="page" id="staff" data-theme="a">
 
 	<div data-role="header">
 		<h1>Staff Page</h1>
+		
 	</div><!-- /header -->
 	
 	
 
-	<div role="main" class="ui-content">
-		<h2>Welcome Staff</h2>
-		<div>
+
+	
+	
+
+<div role="main" class="ui-content">
+
+
+		
+		
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <div class="collapse navbar-collapse" id="navbarColor03">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#staff">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#makegraph">Manage Graphs</a>
+      </li><div class="timemove" id="time01"></div>
+  </div>
+</nav>
+
+        <h2 class="p1">Welcome Staff</h2>
+
+		
 		<h3 style="padding: 10px; border: 2px solid black; text-align: center">Message to Students</h3>
               <li>
-                 <center><input type="textarea" id="toStudents" name="toStudents" style="padding: 10px; border: 4px solid black; width: 250px; height: 250px;"></input></center>
+                 <input class="tostudents" type="textarea" id="toStudents"></input>
               </li>
-             <button onclick=”displayMessage()” >Submit</button>
-		</div>
+              <button type="submit" id="submitMessage" class="ui-btn" >Send Message</button>
+		
 	
 	
 
-<button onclick=”logout()” >Logout</button>
+        <button onclick="logout()">Logout</button>
+
  
-    </div><!-- /content -->
+        </div><!-- /content -->
 	
-	<!--End of staff page-->
+    	<!--End of staff page-->
 
-	</div>
+ </div>
+
+ <!-- Start of staff page: #two_staff-->
+ <div data-role="page" id="makegraph" data-theme="a">
+
+ 	<div  data-role="header">
+ 		<h1>Staff Management Page</h1>
+
+ 	</div><!-- /header -->
+
+
+
+
+
+
+
+ <div role="main" class="ui-content">
+
+
+
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+   <div class="collapse navbar-collapse" id="navbarColor03">
+     <ul class="navbar-nav mr-auto">
+       <li class="nav-item active">
+         <a class="nav-link" href="#staff">Home
+           <span class="sr-only">(current)</span>
+         </a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#makegraph">Manage Graphs</a>
+       </li></div>
+   </div>
+ </nav>
+
+	     <h2 class="p1">Manage a Graph</h2>
+
+
+         <button onclick="logout()">Logout</button>
+
+
+         </div><!-- /content -->
+
+     	<!--End of staff page-->
+
+  </div>
+
 	
 	
   
@@ -298,14 +760,14 @@
  
  <script>
     $("#registerNew").click(function(e) {
-        
+         console.log("clicked");
  
         // Get the username and the password
         var sd = $("#student_id").val();
         var pw = $("#password").val();
  
       // send data to the server side.
-      $.post( "/register", { student_id: sd, password: pw })
+      $.post( "/register", {student_id: sd, password: pw})
       .done(function( data ) {
             alert( "Signed UP!: " + data );
 			
@@ -318,20 +780,186 @@
 <script>// Code By Mark Bell
     $("#submitSurvey").click(function(e) // Takes the survey input data and pushes it to the server
     {
-        var q1 = $("#Q1").val(); // Storing the values that the user types in
-        var q2 = $("#Q2").val();
-        var q3 = $("#Q3").val();
-        var q4 = $("#Q4").val();
-        var q5 = $("#Q5").val();
-        var q6 = $("#Q6").val();
-        var q7 = $("#Q7").val();
-        var q8 = $("#Q8").val();
-        var q9 = $("#Q9").val();
-        var q10 = $("#Q10").val();
+       //question1
+       var good = document.getElementById("good");
+       var neutral = document.getElementById("neutral");
+       var bad = document.getElementById("bad");
 
-        $.post( "/submit", { Q1: q1, Q2: q2, Q3: q3, Q4: q4, Q5: q5, Q6: q6, Q7: q7, Q8: q8, Q9: q9, Q10: q10}) // sends the data to the server
+       //question2
+       var car = document.getElementById("car");
+       var bus = document.getElementById("bus");
+       var walking = document.getElementById("walking");
+
+       //question3
+       var ask = document.getElementById("ask");
+       var assignment = document.getElementById("assignment");
+       var sports = document.getElementById("sports");
+
+       //question4
+       var yes = document.getElementById("yes");
+       var sometimes = document.getElementById("sometimes");
+       var no = document.getElementById("no");
+
+       //question5
+       var work = document.getElementById("work");
+       var sometimes01 = document.getElementById("sometimes01");
+       var work_null = document.getElementById("work_null");
+
+       //question6
+       var yes01 = document.getElementById("yes01");
+       var sometimes02 = document.getElementById("sometimes02");
+       var no01 = document.getElementById("no01");
+
+       //question7
+       var yes02 = document.getElementById("yes02");
+       var i_will = document.getElementById("i_will");
+       var no02 = document.getElementById("no02");
+
+       //question8
+       var yes03 = document.getElementById("yes03");
+       var sometimes03 = document.getElementById("sometimes03");
+       var no03 = document.getElementById("no03");
+
+       //question9
+       var yes04 = document.getElementById("yes04");
+       var no04 = document.getElementById("no04");
+
+       //question10
+       var canteen = document.getElementById("canteen");
+       var lunch = document.getElementById("lunch");
+       var town = document.getElementById("town");
+
+
+       if(good.checked ){
+        var q1 = $("#good").val();
+        	}
+        else if (neutral.checked) {
+            var q1a = $("#neutral").val();
+        }// Storing the values that the user types in
+        else if (bad.checked){
+            var q1b = $("#bad").val();
+        }
+
+       if(car.checked ){
+        var q2 = $("#car").val();
+            }
+        else if (bus.checked) {
+            var q2a = $("#bus").val();
+        }// Storing the values that the user types in
+        else if (walking.checked){
+             var q2b = $("#walking").val();
+        }
+
+       if(ask.checked ){
+         var q3 = $("#ask").val();
+             }
+       else if (assignment.checked) {
+            var q3a = $("#assignment").val();
+       }// Storing the values that the user types in
+       else if (sports.checked){
+            var q3b = $("#sports").val();
+       }
+
+       if(yes.checked){
+         var q4 = $("#yes").val();
+             }
+       else if (sometimes.checked) {
+            var q4a = $("#sometimes").val();
+       }// Storing the values that the user types in
+       else if (no.checked){
+            var q4b = $("#no").val();
+       }
+
+       if(work.checked){
+          var q5 = $("#work").val();
+              }
+       else if (sometimes01.checked) {
+            var q5a = $("#sometimes01").val();
+       }// Storing the values that the user types in
+       else if (work_null.checked){
+            var q5b = $("#work_null").val();
+       }
+
+       if(yes01.checked){
+          var q6 = $("#yes01").val();
+              }
+       else if (sometimes02.checked) {
+            var q6a = $("#sometimes02").val();
+       }// Storing the values that the user types in
+       else if (no01.checked){
+            var q6b = $("#no01").val();
+       }
+
+       if(yes02.checked){
+          var q7 = $("#yes02").val();
+              }
+       else if (i_will.checked) {
+          var q7a = $("#i_will").val();
+       }// Storing the values that the user types in
+       else if (no02.checked){
+          var q7b = $("#no02").val();
+       }
+
+       if(yes03.checked){
+          var q8 = $("#yes03").val();
+              }
+       else if (sometimes03.checked) {
+          var q8a = $("#sometimes03").val();
+       }// Storing the values that the user types in
+       else if (no03.checked){
+          var q8b = $("#no03").val();
+       }
+
+      if(yes04.checked){
+          var q9 = $("#yes04").val();
+              }
+      else if (no04.checked){
+          var q9a = $("#no04").val();
+      }
+
+       if(canteen.checked){
+                var q10 = $("#canteen").val();
+                    }
+             else if (lunch.checked) {
+                var q10a = $("#lunch").val();
+             }// Storing the values that the user types in
+             else if (town.checked){
+                var q10b = $("#town").val();
+             }
+
+
+        $.post( "/submit", { good: q1, neutral: q1a, bad: q1b, car: q2, bus: q2a, walking: q2b, ask: q3, assignment: q3a, sports: q3b, yes: q4, sometimes: q4a, no: q4b, work: q5, sometimes01: q5a, work_null: q5b, yes01: q6, sometimes02: q6a, no01: q6b, yes02: q7, i_will: q7a, no02: q7b, yes03: q8, sometimes03: q8a, no03: q8b, yes04: q9, no04: q9a, canteen: q10, lunch: q10a, town: q10b}) // sends the data to the server
         .done(function( data ) {
-            alert("Survey Submitted" + data)
+            alert("Survey Submitted" + data);
+
+            window.location="/#student";
+        });
+
+
+    });
+
+</script>
+
+<script>
+
+function logout()
+	{
+	window.location="#one";
+	}
+</script>
+
+
+<script>
+
+// Code By Mark Bell Submit Message
+    $("#submitMessage").click(function(e) // Takes the survey input data and pushes it to the server
+    {
+        var ms = $("#toStudents").val();	// Storing the values that the user types in
+		
+      
+        $.post( "/submitMS", {toStudents: ms}) // sends the data to the server
+        .done(function( data ) {
+            alert("Message Sent" + data)
         });
 
 
@@ -340,24 +968,66 @@
 </script>
 
 
+ <script>
+ //Created by Mark Bell, Full working, Hides Survey
+ var btn = document.getElementById('hide');
+ var div = document.getElementById("form01");
+
+ btn.addEventListener('click', () =>{
+ if(div.style.display === 'none'){
+	div.style.display = 'block';
+ }else{
+	div.style.display = 'none';
+ }
+ 
+});
+
+</script>
+
 <script>
-function message()
-    {
-     document.getElementById("#toStudents").innerHTML;
-    }
- function displayMessage()
-    {
-    document.write(message());
-    }
+function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('time').innerHTML = today;
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+
+startTime();
+
+</script>
+
+<script>
+function startTime01() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('time01').innerHTML = today;
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime01, 500);
+}
+function checkTime01(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+
+startTime01();
+
 </script>
 
 
-<script>
 
-function logout()
-	{
-	Window.location=”/”;
-	}
-</script>
+
 </body>
 </html>
