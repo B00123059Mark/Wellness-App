@@ -10,14 +10,23 @@ var usersRouter = require('./routes/users');
 var session = require('express-session')
 var mysql = require('mysql')
 var app = express();
-var crypt = require('crypto-js');
-var sanitize = require('sanitize-html');
+const sanitizeHtml = require('sanitize-html');
 app.use(express.static(__dirname + '/public'));
 
 
 // send email to students and staff
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey('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')
+
+//for the graph
+const chartJs = require('chart.js')
+
+const bcrypt = require('bcrypt');
+const {hash} = require("bcrypt");
+;
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
 
 
 
@@ -42,7 +51,6 @@ app.get('/setSomething', function(req, res, next) {
 });
 
 
-
 app.get('/getSomething', function(req, res, next) {
   res.send('hello' + req.session.name);
 });
@@ -50,35 +58,48 @@ app.get('/getSomething', function(req, res, next) {
 
 //Registration Form
 app.post('/register', function(req,res){
-	
+
   // catching the data from the POST
-  var student_id=req.body.student_id;
-  var pass = req.body.password;
+        var student_id=req.body.student_id;
+        var pass = req.body.password;
 
-  
-  console.log("student id = "+ student_id);
-  console.log("password = "+ pass);
-  
-  // Connect to the database
-  var mysql = require('mysql')
-  var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    port : 3306,
-    database : 'wellness'
-  });
+        address(student_id);
 
-    connection.connect(function(err){
-    console.log("Connected!");
-    connection.query("INSERT INTO `users`(`student_id`,`password`, `acctype`) VALUES ('"+student_id+"','"+pass+"', 'student')");
-    message();
-    connection.end();
+        const clean_id = sanitizeHtml(student_id);
 
- });
- 
- 
 
+
+
+
+        student_id = escape(student_id);
+        pass = sanitizeHtml(pass);
+
+
+        console.log("student id = " + student_id);
+        console.log("password = " + pass);
+
+        // Connect to the database
+        var mysql = require('mysql')
+        var connection = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '',
+            port: 3306,
+            database: 'wellness'
+        });
+
+        connection.connect(function (err) {
+            console.log("Connected!");
+
+            bcrypt.hash(pass, saltRounds, function(err, hash) {
+                // Store hash in your password DB.
+
+            connection.query("INSERT INTO `users`(`student_id`,`password`, `acctype`) VALUES ('" + student_id + "','" + hash + "', 'student')");
+            address(student_id);
+            connection.end();
+
+        });
+   });
 
 });
 
@@ -87,37 +108,37 @@ app.post('/register', function(req,res){
 app.post('/login',function(req,res){
 	
     // catching the data from the POST
-    var student_id=req.body.student_id;
-    var pass = req.body.password;
+         var student_id=req.body.student_id;
+         var pass = req.body.password;
 
-    message(student_id);
-    
-    
-	console.log("student id = "+ student_id);
-	
-    console.log("Password = "+ pass);
-	
-    
-    // Connect to the database
-    var mysql = require('mysql')
-    var connection = mysql.createConnection({
-      host     : 'localhost',
-      user     : 'root',
-      password : '',
-      port : 3306,
-      database : 'wellness'
-    });
+            student_id = sanitizeHtml(student_id);
+            pass = sanitizeHtml(pass);
+
+            console.log("student id = " + student_id);
+            console.log("Password = " + pass);
+
+            // Connect to the database
+            var mysql = require('mysql')
+            var connection = mysql.createConnection({
+                host: 'localhost',
+                user: 'root',
+                password: '',
+                port: 3306,
+                database: 'wellness'
+            });
 
 
-    connection.query('SELECT * from users WHERE student_id = "'+student_id+'" AND password = "'+pass+'"', function (err, rows, fields) {
-      if (err) throw err
-      for(var i=0; i< rows.length; i++){
-           console.log('Acc type: ', rows[i].acctype)
-           res.send(rows[i].acctype); // send the account type back to jQuery mobile.
-      }
-    })
 
-      connection.end();
+        connection.query('SELECT * from users WHERE student_id = "' + student_id + '" AND password = "' + pass + '"', function (err, rows, fields) {
+                if (err) throw err
+                for (var i = 0; i < rows.length; i++) {
+                    console.log('Acc type: ', rows[i].acctype)
+                    res.send(rows[i].acctype); // send the account type back to jQuery mobile.
+                }
+            })
+            connection.end();
+
+
  });
 
 app.post('/submit', function(req,res){
@@ -232,37 +253,6 @@ app.post('/submit', function(req,res){
 
 });
 
-
-app.post('/getsurvey',function(req,res){
-	
-	// Connect to the database
-    var mysql = require('mysql')
-    var connection = mysql.createConnection({
-      host     : 'localhost',
-      user     : 'root',
-      password : '',
-      port : 3306,
-      database : 'wellness'
-    });
-
-
-    connection.query('SELECT * from survey', function (err, rows, fields) {
-      if (err) throw err
-	  var output = '';
-      for(var i=0; i< rows.length; i++){
-           var surveycontent = rows[i].surveycontent;
-		   var total = row[i].total;
-		   output = output + surveycontent + '<br>';
-		   output = output + total + '<br>';
-      }
-	  res.send(output);
-    })
-
-      connection.end();
- });
- 
- 
- 
  
  app.post('/submitMS',function(req,res){
 	 
@@ -294,48 +284,18 @@ app.post('/getsurvey',function(req,res){
     });
 
  });
- 
- 
- 
-app.post('/getMS',function(req,res){
-	
-	// Connect to the database
-    var mysql = require('mysql')
-    var connection = mysql.createConnection({
-      host     : 'localhost',
-      user     : 'root',
-      password : '',
-      port : 3306,
-      database : 'wellness'
-    });
-
-
-    connection.query('SELECT * from sent_messages`', function (err, rows, fields) {
-      if (err) throw err
-	  var output = '';
-      for(var i=0; i< rows.length; i++){
-           var messagecontent = rows[i].messagecontent;
-		   var total = row[i].total;
-		   output = output + messagecontent + '<br>';
-		   output = output + total + '<br>';
-      }
-	  res.send(output);
-    })
-
-      connection.end();
- });
 
 
 // takes in student email and sends an email to them
-function message(student_id){
+function address(student_id){
 
     var email = student_id; //<-- email info
 
     const msg = {
         to: email, // Change to your recipient
         from: 'B00123059@mytudublin.ie', // Change to your verified sender
-        subject: 'Email Registation',
-        text: 'Dear student, you have registered to our webpage',
+        subject: 'Email Registration',
+        text: 'Dear student, you have registered to our webpage with the wellness app.',
         html: '<strong>Dear student, you have registered to our webpage</strong>',
     }
 
@@ -350,13 +310,33 @@ function message(student_id){
 
 }
 
+app.post('/getdata',function(req,res){
+
+    // Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        port : 3306,
+        database : 'wellness'
+    });
 
 
+    connection.query('SELECT * from surveys', function (err, rows, fields) {
+        if (err) throw err
+        var output = '';
+        for(var i=0; i< rows.length; i++){
+            var surveycontent = rows[i].surveycontent;
+            var total = rows[i].total;
+            output = output + surveycontent + '<br>';
+            output = output + total + '<br>';
+        }
+        res.send(output);
+    })
 
-
-
-
-
+    connection.end();
+});
 
 
 

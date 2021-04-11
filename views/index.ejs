@@ -9,6 +9,8 @@
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/stylesheets/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.2/chart.min.js"></script>
+
 
 
   
@@ -34,7 +36,7 @@
 		<p class="p1">Sign in / Register Here</p>
 
         
-         Email: <input class="p1" type="text" id="student_id" name="student_id"></input>
+         Email: <input class="p1" type="text" id="student_id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  name="student_id"></input>
          Password: <input class="p1" type="password" id="password" name="password"></input>
          <button  class="p1" id="registerNew" class="ui-btn">Register</button>
          <button class="p1" id="login" class="ui-btn">Login</button>
@@ -63,18 +65,17 @@
 
 	<div role="main" class="ui-content">
 
-
+	<div class="timemove" id="time"></div>
 		
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
 
-  <div class="collapse navbar-collapse" id="">
+  <div class="collapse navbar-collapse" id="navbarColor03">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#student">Home
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>
+   <li class="nav-item">
+          <a class="nav-link" href="#survey">Home
+           <span class="sr-only">(current)</span></a>
+        </li>
       <li class="nav-item">
         <a class="nav-link" href="#survey">Survey</a>
       </li>
@@ -83,10 +84,25 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#account">Account</a>
-      </li>	<div class="timemove" id="time"></div>
+      </li>
   </div>
 </nav>
 	    <h2 class="p1">Hello Student!</h2>
+
+	    <div class="image_gallery">
+	        <img class="mySlides" src="/images/itb1.jpg" style="width:100%">
+	        <img class="mySlides" src="/images/itb2.jpg" style="width:100%">
+	        <img class="mySlides" src="/images/itb3.jpg" style="width:100%">
+	    </div>
+
+	    <div class="itb_link">
+	      <a href="https://itb.ie/"> <img src="/images/itb_link.png" style="width:100%"></a>
+	    </div>
+
+	    <div class="text_home">
+            <p>This is the Student Wellness App used to help students fit into university life and records student feedback from our surveys.
+               <strong>Click the survey page to let us know what you think about life on campus</strong></p>
+        </div>
 
         <button onclick="logout()">Logout</button>
 
@@ -113,9 +129,6 @@
 
 		
 		</div>
-
-	 
-		
 	<div role="main" class="ui-content">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -127,7 +140,7 @@
         <a class="nav-link" href="#student">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#takeSurvey">Take Survey
+        <a class="nav-link" href="#survey">Survey
          <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
@@ -142,14 +155,16 @@
         <h2 class="p1">Hello Student!</h2>
 		<p class="p1">This is the survey page!</p>
 
-		<div id="viewsurvey">
-
-		</div>
-
-		<button id="View">View Selected Survey</button>
-
+        <div class="surveyForm">
+        <p class="surveyWriting">This survey will be used to compare against other students to get a feeling of what students are thinking about college life
+         and how we can help make your campus experience great.
+         Each survey is completely anonymous.</p>
+        </div>
+        <div class="buttonSurvey">
+        <button  onclick="takesurvey()">Take Survey</button>
+        </div>
 </div>
-<button onclick="logout()">Logout</button>
+ <button onclick="logout()">Logout</button>
 </div>
 
 
@@ -553,16 +568,12 @@
 		<p class="p1">This is the Graph Page!</p>
 
 
-		
-		
+        <div class="view_graph">
+	    <canvas id="myChart"></canvas>
+	    </div>
 
 
-
-	
-
-  <button onclick="logout()">Logout</button>
-
-
+ <button onclick="logout()">Logout</button>
 
 </div>
 </div>
@@ -606,8 +617,9 @@
 		      
         
 		<div id="messagedata">
-		<h3 style="padding: 10px; border: 2px solid black; text-align: center">Message of Day</h3>
+		<h3 style="padding: 10px; border: 2px solid black; text-align: center">Messages</h3>
 		<center><p id="forStudents" style="padding: 10px; border: 4px solid black; width: 250px; height: 250px;"></p></center></div>
+
 		
 
 		
@@ -650,7 +662,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#makegraph">Manage Graphs</a>
+        <a class="nav-link" href="#makegraph">View Graph Data</a>
       </li><div class="timemove" id="time01"></div>
   </div>
 </nav>
@@ -706,12 +718,19 @@
          </a>
        </li>
        <li class="nav-item">
-         <a class="nav-link" href="#makegraph">Manage Graphs</a>
+         <a class="nav-link" href="#makegraph">View Graph Data</a>
        </li></div>
    </div>
  </nav>
 
-	     <h2 class="p1">Manage a Graph</h2>
+	     <h2 class="p1">View Graph</h2>
+
+
+		<button id="getSurveys">Get Survey Data</button>
+
+		<div id="surveydata">
+		</div>
+
 
 
          <button onclick="logout()">Logout</button>
@@ -722,6 +741,8 @@
      	<!--End of staff page-->
 
   </div>
+
+
 
 	
 	
@@ -774,7 +795,7 @@
 			window.location="/#student";
 		 });
 
-		 });
+     });
 </script>
 
 <script>// Code By Mark Bell
@@ -946,6 +967,11 @@ function logout()
 	{
 	window.location="#one";
 	}
+
+function takesurvey()
+    {
+        window.location="#takeSurvey";
+    }
 </script>
 
 
@@ -1024,6 +1050,70 @@ function checkTime01(i) {
 
 startTime01();
 
+</script>
+
+<script>
+//script for slider home page #student
+
+var myIndex = 0;
+carousel();
+
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 1}
+  x[myIndex-1].style.display = "block";
+  setTimeout(carousel, 10000); // Change image every 2 seconds
+}
+</script>
+
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Bad', 'neutral', 'Good'],
+        datasets: [{
+            label: 'Adjusting to College Life',
+            data: [12, 19, 15],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+<script>
+  $("#getSurveys").click(function(e))
+  {
+		$.post("/getdata", {})
+		.done(function(data))
+		{
+			alert("Data Loaded:" + data);
+
+			$('#surveydata').html(data);
+		});
+  }
 </script>
 
 

@@ -4,10 +4,11 @@
 
 ul {
   list-style-type: none;
+  background-color: #000;
   margin: 0;
   padding: 0;
-  background-color: #000;
   width: 100%;
+
 }
 
 li {
@@ -18,9 +19,9 @@ li a {
   display: block;
   color: white;
   text-align: center;
-  margin-left: 25px;
   text-decoration: none;
   font-weight: normal;
+  margin-left: 300px;
 }
 
 li a:hover {
@@ -28,7 +29,7 @@ li a:hover {
 }
 
 .timemove {
-  margin-left: 50%;
+  margin-left: 80%;
   margin-top: 7px;
   margin-bottom: 3px;
 }
@@ -61,4 +62,80 @@ h3{
   float: left;
   text-decoration: none;
 }
+
+.design_survey {
+  width: 100%;
+  height: 500px;
+  border: dotted;
+  color: black;
+}
+
+.surveyForm
+{
+  width: 500px;
+  height: 700px;
+  border: dotted;
+  color: black;
+  margin-left: 36%;
+}
+
+.surveyWriting
+{
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.buttonSurvey
+{
+  width: 200px;
+  height: 50px;
+  margin-left: 970px;
+}
+
+.buttonLogout
+{
+  width: 20px;
+  height: 20px;
+  float: right;
+}
+
+.image_gallery
+{
+  height: 295px;
+  border: solid;
+  max-width: 734px;
+  margin-left: 30%;
+  margin-bottom: 50px;
+}
+
+.itb_link
+{
+  border: solid;
+  width: 259px;
+  height: 194px;
+  float: right;
+  margin-bottom: 50px;
+  margin-right: 50px;
+}
+
+.text_home
+{
+  border: solid;
+  width: 500px;
+  height: 194px;
+  float: left;
+  margin-bottom: 50px;
+  padding: 10px;
+}
+
+.view_graph
+{
+  width: 500px;
+  height: 300px;
+  border: solid;
+  margin-left: 10px;
+  float: left;
+  margin-bottom: 50px;
+}
+
 
