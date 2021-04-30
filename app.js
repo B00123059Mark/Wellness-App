@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -22,11 +21,13 @@ sgMail.setApiKey('SG.C91WbV9pQlKn1y9GXlpsDA.2QjUXAGrMF6UHeZJXvY1PBOV0MPiO3iTDk_R
 const chartJs = require('chart.js')
 
 const bcrypt = require('bcrypt');
-const {hash} = require("bcrypt");
-;
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
+
+
+
+
 
 
 
@@ -56,23 +57,19 @@ app.get('/getSomething', function(req, res, next) {
 });
 
 
+
 //Registration Form
-app.post('/register', function(req,res){
+app.post('/register', async function(req,res){
 
   // catching the data from the POST
         var student_id=req.body.student_id;
         var pass = req.body.password;
 
-        address(student_id);
-
-        const clean_id = sanitizeHtml(student_id);
-
-
-
-
+        student_id = sanitizeHtml(student_id);
 
         student_id = escape(student_id);
         pass = sanitizeHtml(pass);
+
 
 
         console.log("student id = " + student_id);
@@ -88,57 +85,53 @@ app.post('/register', function(req,res){
             database: 'wellness'
         });
 
-        connection.connect(function (err) {
-            console.log("Connected!");
+    bcrypt.hash(pass, saltRounds).then(function (hashPassword) {
+        // Store hash in your password DB.
+    
+                connection.connect(function (err) {
+                console.log("Connected!");
 
-            bcrypt.hash(pass, saltRounds, function(err, hash) {
-                // Store hash in your password DB.
+                connection.query("INSERT INTO `users`(`student_id`,`password`, `acctype`) VALUES ('" + student_id + "','" + hashPassword + "', 'student')");
+                address(student_id);
 
-            connection.query("INSERT INTO `users`(`student_id`,`password`, `acctype`) VALUES ('" + student_id + "','" + hash + "', 'student')");
-            address(student_id);
-            connection.end();
-
-        });
-   });
-
+                });
+    });
 });
+
 
 
 //Login Form
 app.post('/login',function(req,res){
 	
-    // catching the data from the POST
-         var student_id=req.body.student_id;
-         var pass = req.body.password;
+        var student_id=req.body.student_id;
+        var pass = req.body.password;
+        student_id = sanitizeHtml(student_id);
+        pass = sanitizeHtml(pass);
 
-            student_id = sanitizeHtml(student_id);
-            pass = sanitizeHtml(pass);
+        
+           
+        console.log("student id = " + student_id);
+        console.log("Password = " + pass);
 
-            console.log("student id = " + student_id);
-            console.log("Password = " + pass);
-
-            // Connect to the database
-            var mysql = require('mysql')
-            var connection = mysql.createConnection({
-                host: 'localhost',
-                user: 'root',
-                password: '',
-                port: 3306,
-                database: 'wellness'
-            });
-
-
-
-        connection.query('SELECT * from users WHERE student_id = "' + student_id + '" AND password = "' + pass + '"', function (err, rows, fields) {
-                if (err) throw err
-                for (var i = 0; i < rows.length; i++) {
-                    console.log('Acc type: ', rows[i].acctype)
-                    res.send(rows[i].acctype); // send the account type back to jQuery mobile.
-                }
-            })
-            connection.end();
+        // Connect to the database
+        var mysql = require('mysql')
+        var connection = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '',
+            port: 3306,
+            database: 'wellness'
+        });
 
 
+
+      connection.query('SELECT * from users WHERE student_id = "' + student_id + '" AND password = "' + pass + '"', function (err, rows, fields) {
+            if (err) throw err
+            for (var i = 0; i < rows.length; i++) {
+                console.log('Acc type: ', rows[i].acctype)
+                res.send(rows[i].acctype); // send the account type back to jQuery mobile.
+            }
+      })
  });
 
 app.post('/submit', function(req,res){
@@ -323,13 +316,13 @@ app.post('/getdata',function(req,res){
     });
 
 
-    connection.query('SELECT * from surveys', function (err, rows, fields) {
+    connection.query('SELECT * from sent_messages', function (err, rows, fields) {
         if (err) throw err
         var output = '';
         for(var i=0; i< rows.length; i++){
-            var surveycontent = rows[i].surveycontent;
+            var messagecontent = rows[i].messagecontent;
             var total = rows[i].total;
-            output = output + surveycontent + '<br>';
+            output = output + messagecontent + '<br>';
             output = output + total + '<br>';
         }
         res.send(output);
@@ -337,6 +330,84 @@ app.post('/getdata',function(req,res){
 
     connection.end();
 });
+
+
+app.post('/getNumber',function(req,res){
+	// Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      port : 3306,
+      database : 'wellness'
+    });
+
+
+// takes data from table // updates the graph 
+	
+	var bad_campus = connection.query("select COUNT(question1) AS 'Bad' from survey WHERE question1 = 1", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+    res.send(bad_campus);
+	});
+	
+    var neutral_campus = connection.query("select COUNT(question1a) AS 'Neutral' from survey WHERE question1a = 2", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+	res.send(neutral_campus);
+	});
+	
+	var good_campus = connection.query("select COUNT(question1b) AS 'Good' from survey WHERE question1b = 3", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+	res.send(good_campus);
+	});
+
+
+	function setValue(value) {
+	bad_campus = value;
+	bad_campus.toString();
+	console.log(bad_campus);
+	}
+	
+	
+	function setValue(value) {
+	neutral_campus = value;
+	neutral_campus.toString();
+	console.log(neutral_campus);
+	
+	}
+	
+	
+	
+	function setValue(value) {
+	good_campus = value;
+	good_campus.toString();
+	console.log(good_campus);
+    
+	}
+      connection.end();
+	  
+});
+	  
+
+	  
+
+	  
+
+
+
+   
 
 
 

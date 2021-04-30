@@ -616,9 +616,10 @@
 
 		      
         
-		<div id="messagedata">
+		<div id="getSurveys">
 		<h3 style="padding: 10px; border: 2px solid black; text-align: center">Messages</h3>
-		<center><p id="forStudents" style="padding: 10px; border: 4px solid black; width: 250px; height: 250px;"></p></center></div>
+		<center><p id="surveydata" style="padding: 10px; border: 4px solid black; width: 250px; height: 250px;"></p></center>
+		<button id="getMessages">View New Messages</button></div>
 
 		
 
@@ -764,10 +765,10 @@
             alert( "login now?: " + data );
             
             if(data.includes('student')){
-                 // redirect to the customer page.
+                 // redirect to the student page.
                  window.location="/#student";
             }
-			     // redirect to the cook page
+			     // redirect to the staff page
             else if(data.includes('staff')){
 			     window.location="/#staff";
             }
@@ -781,18 +782,24 @@
  
  <script>
     $("#registerNew").click(function(e) {
-         console.log("clicked");
- 
-        // Get the username and the password
-        var sd = $("#student_id").val();
-        var pw = $("#password").val();
+
+      // Get the username and the password
+      var sd = $("#student_id").val();
+      var pw = $("#password").val();
  
       // send data to the server side.
       $.post( "/register", {student_id: sd, password: pw})
       .done(function( data ) {
             alert( "Signed UP!: " + data );
 			
-			window.location="/#student";
+			 if(data.includes('student')){
+               // redirect to the student page.
+                 window.location="/#student";
+                 }
+               // redirect to the staff page
+             else if(data.includes('staff')){
+                 window.location="/#staff";
+                 }
 		 });
 
      });
@@ -1072,14 +1079,15 @@ function carousel() {
 </script>
 
 <script>
-var ctx = document.getElementById('myChart').getContext('2d');
+var ctx = document.getElementById('myChart').getContext('2d');	
+ 
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['Bad', 'neutral', 'Good'],
+        labels: ['Bad', 'Neutral', 'Good'],
         datasets: [{
             label: 'Adjusting to College Life',
-            data: [12, 19, 15],
+            data: [1, 19, 15],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -1104,7 +1112,7 @@ var myChart = new Chart(ctx, {
 </script>
 
 <script>
-  $("#getSurveys").click(function(e))
+  $("#getMessages").click(function(e))
   {
 		$.post("/getdata", {})
 		.done(function(data))
