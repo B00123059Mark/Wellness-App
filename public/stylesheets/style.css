@@ -133,9 +133,25 @@ h3{
   width: 500px;
   height: 300px;
   border: solid;
-  margin-left: 10px;
+  margin-left: 250px;
   float: left;
   margin-bottom: 50px;
+  margin-right: 119px;
 }
+
+.staffmessage
+{
+  width: 500px;
+  height: 300px;
+  border: solid;
+  color: #000;
+  margin-left: 700px;
+  margin-right: 119px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  float: right;
+}
+
+
 
 

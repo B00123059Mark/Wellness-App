@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/stylesheets/style.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.2/chart.min.js"></script>
-
-
+<link rel="stylesheet" href="/stylesheets/style.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<link rel="stylesheet" href="/stylesheets/calendar.css" />
+ 
 
   
     <title>Major Assignment</title>
@@ -55,7 +55,7 @@
 <div data-role="page" id="student" data-theme="a">
 
 	<div data-role="header">
-		<h1 class="p1">Welcome Student</h1>
+		<h1 class="p1">Welcome student</h1>
 		
 		
 		
@@ -199,10 +199,6 @@
       </li>
   </div>
 </nav>
-
-		
-		
-		<button id="hide">Hide Survey</button>
 	    <form action="/my-handling-form-page" id="form01" method="POST"> <!-- Using a form to display the survey -->
 
 
@@ -276,7 +272,7 @@
 
 
 
-		<button id="hide1">Hide Survey</button>
+		
 	    <form action="/my-handling-form-page" id="form01" method="POST"> <!-- Using a form to display the survey -->
 
 
@@ -525,22 +521,14 @@
 </form><!-- end of form-->
 
 
-
-
-
 <!-- Start of graph page: -->
 <div data-role="page" id="graph" data-theme="a">
 
 		<div data-role="header">
 		<h1>Graph Page</h1>
 	
-		
-		
 </div>
-
-
 	
-		
 <div role="main" class="ui-content">
 		
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -565,12 +553,35 @@
 </nav>
 
         <h2 class="p1">Hello Student!</h2>
-		<p class="p1">This is the Graph Page!</p>
+		<p class="p1">See what other students think!</p>
+		
+		
 
 
         <div class="view_graph">
 	    <canvas id="myChart"></canvas>
 	    </div>
+		
+		
+        <div class="view_graph">
+	    <canvas id="myBarChart"></canvas>
+	    </div>
+		
+		<div class="view_graph">
+	    <canvas id="myChart1"></canvas>
+	    </div>
+		
+		<div class="view_graph">
+	    <canvas id="myBarChart1"></canvas>
+	    </div>
+		
+		<button id="showButton">Campus Life Data</button>
+		<div id="showSurvey"></div>
+		
+	
+		
+	
+		
 
 
  <button onclick="logout()">Logout</button>
@@ -613,18 +624,65 @@
 
         <h2 class="p1">Hello Student!</h2>
         <p class="p1">This is your Account Page!</p>
+		
+		
+		<button id="suveyscompleted"># of surveys completed</button>
+		
+		<div id="surveynumdisplay"></div>
 
 		      
         
-		<div id="getSurveys">
-		<h3 style="padding: 10px; border: 2px solid black; text-align: center">Messages</h3>
-		<center><p id="surveydata" style="padding: 10px; border: 4px solid black; width: 250px; height: 250px;"></p></center>
-		<button id="getMessages">View New Messages</button></div>
-
-		
-
-		
+		<div class="staffmessage" id="staffmessages">
+		<center><h2>Message Box</h2></center>	 
+		<button id="staffMessages" class="staffmessagebutton">View New Messages</button>
         </div>	
+		
+		
+<div id="container" class="calendarclass">
+      <div id="header">
+        <div id="monthDisplay"></div>
+        <div>
+          <button id="backButton" class="prevbutton">Back</button>
+          <button id="nextButton" class="nextbutton">Next</button>
+        </div>
+      </div>
+
+      <div id="weekdays">
+        <div>Sunday</div>
+        <div>Monday</div>
+        <div>Tuesday</div>
+        <div>Wednesday</div>
+        <div>Thursday</div>
+        <div>Friday</div>
+        <div>Saturday</div>
+      </div>
+
+      <div id="calendar"></div>
+    </div>
+
+    <div id="newEventModal">
+      <h2>New Event</h2>
+
+      <input id="eventTitleInput" placeholder="Event Title" />
+
+      <button id="saveButton">Save</button>
+      <button id="cancelButton">Cancel</button>
+    </div>
+
+    <div id="deleteEventModal">
+      <h2>Event</h2>
+
+      <p id="eventText"></p>
+
+      <button id="deleteButton">Delete</button>
+      <button id="closeButton">Close</button>
+    </div>
+
+    <div id="modalBackDrop"></div>
+
+
+		
+		
 		<button onclick="logout()">Logout</button>
 	
 
@@ -688,7 +746,7 @@
     	<!--End of staff page-->
 
  </div>
-
+ 
  <!-- Start of staff page: #two_staff-->
  <div data-role="page" id="makegraph" data-theme="a">
 
@@ -742,6 +800,7 @@
      	<!--End of staff page-->
 
   </div>
+  
 
 
 
@@ -795,10 +854,6 @@
 			 if(data.includes('student')){
                // redirect to the student page.
                  window.location="/#student";
-                 }
-               // redirect to the staff page
-             else if(data.includes('staff')){
-                 window.location="/#staff";
                  }
 		 });
 
@@ -1000,23 +1055,6 @@ function takesurvey()
 
 </script>
 
-
- <script>
- //Created by Mark Bell, Full working, Hides Survey
- var btn = document.getElementById('hide');
- var div = document.getElementById("form01");
-
- btn.addEventListener('click', () =>{
- if(div.style.display === 'none'){
-	div.style.display = 'block';
- }else{
-	div.style.display = 'none';
- }
- 
-});
-
-</script>
-
 <script>
 function startTime() {
   var today = new Date();
@@ -1038,26 +1076,6 @@ startTime();
 
 </script>
 
-<script>
-function startTime01() {
-  var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  m = checkTime(m);
-  s = checkTime(s);
-  document.getElementById('time01').innerHTML = today;
-  h + ":" + m + ":" + s;
-  var t = setTimeout(startTime01, 500);
-}
-function checkTime01(i) {
-  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-  return i;
-}
-
-startTime01();
-
-</script>
 
 <script>
 //script for slider home page #student
@@ -1078,25 +1096,49 @@ function carousel() {
 }
 </script>
 
-<script>
-var ctx = document.getElementById('myChart').getContext('2d');	
  
-var myChart = new Chart(ctx, {
+<script>
+		
+		
+//gets the graph data
+//Graph 01
+const ctx = document.getElementById('myChart').getContext('2d');	
+
+const bad = 1;
+const neutral = 0;
+const good = 0;
+
+const data = {bad, neutral, good};
+
+const options = {method: 'POST', headers: {'Content-Type': 'application/json'},
+	body: JSON.stringify(data);
+};
+
+const response = await fetch('/getGraph', options);
+const json = await response.json();
+console.log(json);
+
+
+
+const bad_campus01 = json;
+
+
+const myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: ['Bad', 'Neutral', 'Good'],
         datasets: [{
             label: 'Adjusting to College Life',
-            data: [1, 19, 15],
+            data: [bad_campus01],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
+                'rgba(255, 162, 110, 0.2)',
+                'rgba(10, 120, 60, 0.2)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)'
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 162, 110, 0.2)',
+                'rgba(10, 120, 60, 0.2)'
             ],
             borderWidth: 1
         }]
@@ -1109,12 +1151,126 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
+// graph 02
+var ctx01 = document.getElementById('myBarChart').getContext('2d');	
+
+var myBarChart = new Chart(ctx01, {
+    type: 'bar',
+    data: {
+        labels: ['Car', 'Bus', 'Walking'],
+        datasets: [{
+            label: 'How do people get to college?',
+            data: [4,6,15],
+            backgroundColor: [
+                'rgba(140, 40, 255, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+                'rgba(140, 40, 255, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// graph 03
+var ctx02 = document.getElementById('myChart1').getContext('2d');	
+
+var myChart1 = new Chart(ctx02, {
+    type: 'line',
+    data: {
+        labels: ['Canteen', 'Pack lunch', 'Town'],
+        datasets: [{
+            label: 'Where do you eat for lunch?',
+            data: [14,6,2],
+            backgroundColor: [
+                'rgba(140, 40, 255, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+                'rgba(140, 40, 255, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// graph 04
+var ctx03 = document.getElementById('myBarChart1').getContext('2d');	
+
+
+var myBarChart1 = new Chart(ctx03, {
+    type: 'bar',
+    data: {
+        labels: ['No', 'Sometimes', 'Yes'],
+        datasets: [{
+            label: 'Working well with fellow students',
+            data: [14,6,2],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 162, 110, 0.2)',
+                'rgba(10, 120, 60, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 162, 110, 1)',
+                'rgba(10, 120, 60, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
 </script>
 
 <script>
-  $("#getMessages").click(function(e))
+// gets messages for the account page
+  $("#staffMessages").click(function(e))
   {
-		$.post("/getdata", {})
+		$.post("/staffmessages", {})
+		.done(function(data))
+		{
+			alert("Data Loaded:" + data);
+
+			$('#staffmessages').html(data);
+		});
+  }
+</script>
+
+
+<script>
+// gets survey data for staff page
+  $("#getSurveys").click(function(e))
+  {
+		$.post("/surveyData", {})
 		.done(function(data))
 		{
 			alert("Data Loaded:" + data);
@@ -1123,6 +1279,181 @@ var myChart = new Chart(ctx, {
 		});
   }
 </script>
+
+<script>
+// gets survey data for account page
+  $("#suveyscompleted").click(function(e))
+  {
+		$.post("/surveyNum", {})
+		.done(function(data))
+		{
+			alert("Data Loaded:" + data);
+
+			$('#surveynumdisplay').html(data);
+		});
+  }
+</script>
+
+
+<script>
+// gets survey data for survey page
+  $("#showButton").click(function(e))
+  {
+		$.post("/getGraph", {})
+		.done(function(data))
+		{
+			alert("Data Loaded:" + data);
+
+			$('#showSurvey').html(data);
+		});
+  }
+  
+</script>
+
+
+
+<script>
+//calendar script
+let nav = 0;
+let clicked = null;
+let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
+
+const calendar = document.getElementById('calendar');
+const newEventModal = document.getElementById('newEventModal');
+const deleteEventModal = document.getElementById('deleteEventModal');
+const backDrop = document.getElementById('modalBackDrop');
+const eventTitleInput = document.getElementById('eventTitleInput');
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+function openModal(date) {
+  clicked = date;
+
+  const eventForDay = events.find(e => e.date === clicked);
+
+  if (eventForDay) {
+    document.getElementById('eventText').innerText = eventForDay.title;
+    deleteEventModal.style.display = 'block';
+  } else {
+    newEventModal.style.display = 'block';
+  }
+
+  backDrop.style.display = 'block';
+}
+
+function load() {
+  const dt = new Date();
+
+  if (nav !== 0) {
+    dt.setMonth(new Date().getMonth() + nav);
+  }
+
+  const day = dt.getDate();
+  const month = dt.getMonth();
+  const year = dt.getFullYear();
+
+  const firstDayOfMonth = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  
+  const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  });
+  const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
+
+  document.getElementById('monthDisplay').innerText = 
+    `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
+
+  calendar.innerHTML = '';
+
+  for(let i = 1; i <= paddingDays + daysInMonth; i++) {
+    const daySquare = document.createElement('div');
+    daySquare.classList.add('day');
+
+    const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+
+    if (i > paddingDays) {
+      daySquare.innerText = i - paddingDays;
+      const eventForDay = events.find(e => e.date === dayString);
+
+      if (i - paddingDays === day && nav === 0) {
+        daySquare.id = 'currentDay';
+      }
+
+      if (eventForDay) {
+        const eventDiv = document.createElement('div');
+        eventDiv.classList.add('event');
+        eventDiv.innerText = eventForDay.title;
+        daySquare.appendChild(eventDiv);
+      }
+
+      daySquare.addEventListener('click', () => openModal(dayString));
+    } else {
+      daySquare.classList.add('padding');
+    }
+
+    calendar.appendChild(daySquare);    
+  }
+}
+
+function closeModal() {
+  eventTitleInput.classList.remove('error');
+  newEventModal.style.display = 'none';
+  deleteEventModal.style.display = 'none';
+  backDrop.style.display = 'none';
+  eventTitleInput.value = '';
+  clicked = null;
+  load();
+}
+
+function saveEvent() {
+  if (eventTitleInput.value) {
+    eventTitleInput.classList.remove('error');
+
+    events.push({
+      date: clicked,
+      title: eventTitleInput.value,
+    });
+
+    localStorage.setItem('events', JSON.stringify(events));
+    closeModal();
+  } else {
+    eventTitleInput.classList.add('error');
+  }
+}
+
+function deleteEvent() {
+  events = events.filter(e => e.date !== clicked);
+  localStorage.setItem('events', JSON.stringify(events));
+  closeModal();
+}
+
+function initButtons() {
+  document.getElementById('nextButton').addEventListener('click', () => {
+    nav++;
+    load();
+  });
+
+  document.getElementById('backButton').addEventListener('click', () => {
+    nav--;
+    load();
+  });
+
+  document.getElementById('saveButton').addEventListener('click', saveEvent);
+  document.getElementById('cancelButton').addEventListener('click', closeModal);
+  document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+  document.getElementById('closeButton').addEventListener('click', closeModal);
+}
+
+initButtons();
+load();
+
+</script>
+
+
+
+
 
 
 

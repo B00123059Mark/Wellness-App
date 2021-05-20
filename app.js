@@ -13,6 +13,8 @@ const sanitizeHtml = require('sanitize-html');
 app.use(express.static(__dirname + '/public'));
 
 
+
+
 // send email to students and staff
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey('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')
@@ -22,16 +24,10 @@ const chartJs = require('chart.js')
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
-
-
-
-
-
-
 
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+
+app.use(express.json({limit: '1mb'}));
  
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -70,8 +66,6 @@ app.post('/register', async function(req,res){
         student_id = escape(student_id);
         pass = sanitizeHtml(pass);
 
-
-
         console.log("student id = " + student_id);
         console.log("password = " + pass);
 
@@ -96,6 +90,7 @@ app.post('/register', async function(req,res){
 
                 });
     });
+	
 });
 
 
@@ -132,6 +127,7 @@ app.post('/login',function(req,res){
                 res.send(rows[i].acctype); // send the account type back to jQuery mobile.
             }
       })
+
  });
 
 app.post('/submit', function(req,res){
@@ -177,12 +173,6 @@ app.post('/submit', function(req,res){
     var q10a=req.body.lunch;
     var q10b=req.body.town;
 
-
-
-
-
-
-
     console.log("Question 1 = "+ q1);
     console.log("Question 1 = "+ q1a);
     console.log("Question 1 = "+ q1b);
@@ -221,9 +211,6 @@ app.post('/submit', function(req,res){
     console.log("Question 10 = "+ q10);
     console.log("Question 10 = "+ q10a);
     console.log("Question 10 = "+ q10b);
-
-
-
 
     // Connect to the database
     var mysql = require('mysql')
@@ -303,7 +290,7 @@ function address(student_id){
 
 }
 
-app.post('/getdata',function(req,res){
+app.post('/staffmessages',function(req,res){
 
     // Connect to the database
     var mysql = require('mysql')
@@ -316,7 +303,7 @@ app.post('/getdata',function(req,res){
     });
 
 
-    connection.query('SELECT * from sent_messages', function (err, rows, fields) {
+    connection.query("SELECT * from sent_messages", function (err, rows, fields) {
         if (err) throw err
         var output = '';
         for(var i=0; i< rows.length; i++){
@@ -325,14 +312,38 @@ app.post('/getdata',function(req,res){
             output = output + messagecontent + '<br>';
             output = output + total + '<br>';
         }
-        res.send(output);
+        res.write(output);
     })
-
-    connection.end();
 });
 
+app.post('/surveyData',function(req,res){
 
-app.post('/getNumber',function(req,res){
+    // Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        port : 3306,
+        database : 'wellness'
+    });
+
+
+    connection.query("SELECT * from survey", function (err, rows, fields) {
+        if (err) throw err
+        var output = '';
+        for(var i=0; i< rows.length; i++){
+            var surveycontent = rows[i].surveycontent;
+            var total = rows[i].total;
+            output = output + surveycontent + '<br>';
+            output = output + total + '<br>';
+        }
+        res.write(output);
+    })
+});
+
+app.post('/surveyNum', function(req,res){
+
 	// Connect to the database
     var mysql = require('mysql')
     var connection = mysql.createConnection({
@@ -346,66 +357,261 @@ app.post('/getNumber',function(req,res){
 
 // takes data from table // updates the graph 
 	
-	var bad_campus = connection.query("select COUNT(question1) AS 'Bad' from survey WHERE question1 = 1", function(err, rows){
-	if(err) {
-    throw err;
-	} else {
-    setValue(rows);
-	}
-    res.send(bad_campus);
-	});
+	  connection.query("SELECT COUNT(id) as 'NumSurvey' from survey", function (err, rows, fields) {
+      if (err) throw err
+      var outputNum = '';
+      for(var i=0; i< rows.length; i++){
+            var Num = rows[i].Num;
+            var total = rows[i].total;
+            outputNum = outputNum + Num + '<br>';
+            outputNum = outputNum + total + '<br>';
+        }
+        res.send(outputNum);
+    })
 	
-    var neutral_campus = connection.query("select COUNT(question1a) AS 'Neutral' from survey WHERE question1a = 2", function(err, rows){
-	if(err) {
-    throw err;
-	} else {
-    setValue(rows);
-	}
-	res.send(neutral_campus);
-	});
-	
-	var good_campus = connection.query("select COUNT(question1b) AS 'Good' from survey WHERE question1b = 3", function(err, rows){
-	if(err) {
-    throw err;
-	} else {
-    setValue(rows);
-	}
-	res.send(good_campus);
-	});
+});
 
 
+
+
+app.post('/getGraph', function(req,res){
+
+	// Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      port : 3306,
+      database : 'wellness'
+    });
+	
+// takes data from table // updates the graph 
+	
+	 bad_campus = connection.query("select COUNT(question1) AS 'Bad' from survey WHERE question1 = 1", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+    
+	});
+	
+     neutral_campus = connection.query("select COUNT(question1a) AS 'Neutral' from survey WHERE question1a = 2", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+	
+	});
+	
+	good_campus = connection.query("select COUNT(question1b) AS 'Good' from survey WHERE question1b = 3", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+
+	});
 	function setValue(value) {
 	bad_campus = value;
-	bad_campus.toString();
-	console.log(bad_campus);
+	res.json({status: 'success', bad_campus: bad})
 	}
-	
-	
 	function setValue(value) {
 	neutral_campus = value;
-	neutral_campus.toString();
-	console.log(neutral_campus);
-	
+	res.send(neutral_campus);
 	}
-	
-	
-	
 	function setValue(value) {
 	good_campus = value;
-	good_campus.toString();
-	console.log(good_campus);
-    
+	res.send(good_campus);
 	}
-      connection.end();
-	  
+	
+	const data = request.body;
+	
+	res.json({status: 'success', bad_campus: data.bad, neutral_campus: data.neutral, good_campus: data.good});
+	
 });
-	  
+
+
+app.post('/getGraph01', function(req,res){
+
+	// Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      port : 3306,
+      database : 'wellness'
+    });
+
+
+// takes data from table // updates the graph 
+	
+	var car = connection.query("select COUNT(question2) AS 'car' from survey WHERE question2 = 1", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+    
+	});
+	
+    var bus = connection.query("select COUNT(question2a) AS 'bus' from survey WHERE question2a = 2", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+	
+	});
+	
+	var walking = connection.query("select COUNT(question2b) AS 'walking' from survey WHERE question2b = 3", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+
+	});
+	function setValue(value) {
+	car = value;
+	res.send(car);
+	}
+	function setValue(value) {
+	bus = value;
+	res.send(bus);
+	}
+	function setValue(value) {
+	walking = value;
+	res.send(walking);
+	}
+	
+});
+
+app.post('/getGraph02', function(req,res){
+
+	// Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      port : 3306,
+      database : 'wellness'
+    });
+
+
+// takes data from table // updates the graph 
+	
+	var canteen = connection.query("select COUNT(question10) AS 'canteen' from survey WHERE question10 = 1", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+    
+	});
+	
+    var pack_lunch = connection.query("select COUNT(question10a) AS 'packlunch' from survey WHERE question10a = 2", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+	
+	});
+	
+	var town = connection.query("select COUNT(question10b) AS 'town' from survey WHERE question10b = 3", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+
+	});
+	function setValue(value) {
+	canteen = value;
+	res.send(canteen);
+	}
+	function setValue(value) {
+	pack_lunch = value;
+	res.send(pack_lunch);
+	}
+	function setValue(value) {
+	town = value;
+	res.send(town);
+	}
+	
+});
+
+app.post('/getGraph03', function(req,res){
+
+	// Connect to the database
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      port : 3306,
+      database : 'wellness'
+    });
+
+
+// takes data from table // updates the graph 
+	
+	var y = connection.query("select COUNT(question6) AS 'yes' from survey WHERE question6 = 1", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+    
+	});
+	
+    var some = connection.query("select COUNT(question6) AS 'sometimes' from survey WHERE question6a = 2", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+	
+	});
+	
+	var n = connection.query("select COUNT(question6b) AS 'no' from survey WHERE question6b = 3", function(err, rows){
+	if(err) {
+    throw err;
+	} else {
+    setValue(rows);
+	}
+
+	});
+	function setValue(value) {
+	y = value;
+	res.send(y);
+	}
+	function setValue(value) {
+	some = value;
+	res.send(some);
+	}
+	function setValue(value) {
+	n = value;
+	res.send(n);
+	}
+	
+});
+
+
+
 
 	  
 
 	  
 
+	  
 
+	 
 
    
 
