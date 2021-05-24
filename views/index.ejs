@@ -690,6 +690,10 @@
 
 </div>
 
+</div>
+
+</div>
+
 
 <!-- Start of staff page: #one_staff -->
 <div data-role="page" id="staff" data-theme="a">
@@ -699,12 +703,6 @@
 		
 	</div><!-- /header -->
 	
-	
-
-
-	
-	
-
 <div role="main" class="ui-content">
 
 
@@ -734,9 +732,7 @@
                  <input class="tostudents" type="textarea" id="toStudents"></input>
               </li>
               <button type="submit" id="submitMessage" class="ui-btn" >Send Message</button>
-		
-	
-	
+			  
 
         <button onclick="logout()">Logout</button>
 
@@ -746,6 +742,7 @@
     	<!--End of staff page-->
 
  </div>
+
  
  <!-- Start of staff page: #two_staff-->
  <div data-role="page" id="makegraph" data-theme="a">
@@ -754,12 +751,6 @@
  		<h1>Staff Management Page</h1>
 
  	</div><!-- /header -->
-
-
-
-
-
-
 
  <div role="main" class="ui-content">
 
@@ -785,10 +776,21 @@
 	     <h2 class="p1">View Graph</h2>
 
 
-		<button id="getSurveys">Get Survey Data</button>
+		<button id="getSurveys" name="getSurveys">Get Survey Data</button>
 
-		<div id="surveydata">
+		<div id="surveydata" name="surveydata">
 		</div>
+		
+		<h2 class="p1">Manage Users</h2>
+		
+		<span id="content"></span>
+		
+       <form method = 'post' action = '/admindeleteuser'>		
+
+          <input type = "text" name = "adminuser" id="adminuser"  placeholder = "Enter ID">
+          <input type = "submit" id="stored_value" name="stored_value" value ="Delete User" onclick = "refreshscript()">			
+
+      </form>
 
 
 
@@ -801,9 +803,6 @@
 
   </div>
   
-
-
-
 	
 	
   
@@ -1104,32 +1103,13 @@ function carousel() {
 //Graph 01
 const ctx = document.getElementById('myChart').getContext('2d');	
 
-const bad = 1;
-const neutral = 0;
-const good = 0;
-
-const data = {bad, neutral, good};
-
-const options = {method: 'POST', headers: {'Content-Type': 'application/json'},
-	body: JSON.stringify(data);
-};
-
-const response = await fetch('/getGraph', options);
-const json = await response.json();
-console.log(json);
-
-
-
-const bad_campus01 = json;
-
-
 const myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: ['Bad', 'Neutral', 'Good'],
         datasets: [{
             label: 'Adjusting to College Life',
-            data: [bad_campus01],
+            data: [1,0,10],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(255, 162, 110, 0.2)',
@@ -1255,11 +1235,8 @@ var myBarChart1 = new Chart(ctx03, {
 // gets messages for the account page
   $("#staffMessages").click(function(e))
   {
-		$.post("/staffmessages", {})
-		.done(function(data))
+		$.get("/staffmessages", function(data))
 		{
-			alert("Data Loaded:" + data);
-
 			$('#staffmessages').html(data);
 		});
   }
@@ -1270,11 +1247,7 @@ var myBarChart1 = new Chart(ctx03, {
 // gets survey data for staff page
   $("#getSurveys").click(function(e))
   {
-		$.post("/surveyData", {})
-		.done(function(data))
-		{
-			alert("Data Loaded:" + data);
-
+		$.get("/surveyData", function(data)){
 			$('#surveydata').html(data);
 		});
   }
@@ -1284,11 +1257,7 @@ var myBarChart1 = new Chart(ctx03, {
 // gets survey data for account page
   $("#suveyscompleted").click(function(e))
   {
-		$.post("/surveyNum", {})
-		.done(function(data))
-		{
-			alert("Data Loaded:" + data);
-
+		$.get("/surveyNum", function(data)){
 			$('#surveynumdisplay').html(data);
 		});
   }
@@ -1299,7 +1268,7 @@ var myBarChart1 = new Chart(ctx03, {
 // gets survey data for survey page
   $("#showButton").click(function(e))
   {
-		$.post("/getGraph", {})
+		$.get("/getGraph", {})
 		.done(function(data))
 		{
 			alert("Data Loaded:" + data);
@@ -1313,6 +1282,7 @@ var myBarChart1 = new Chart(ctx03, {
 
 
 <script>
+//created by Mark
 //calendar script
 let nav = 0;
 let clicked = null;
@@ -1450,6 +1420,41 @@ initButtons();
 load();
 
 </script>
+
+<script>
+//created by Dylan											//script to display the user table with database results(gets it from app.js function above)
+          $.get("/admindisplaytable", function(data){
+            $( "#content").html(data );
+          });
+</script>
+
+<script>
+//created by Dylan
+          function refreshscript() {						
+            window.location.replace("/#makegraph");					//reloads the page when function is called 
+          }
+
+</script>
+
+<script>
+//created by Mark
+ // Get the value to delete a user
+   $("#stored_value").click(function(e) {
+	  console.log("clicked");
+      var del = $("#Delete User").val();
+      
+ 
+      // send data to the server side.
+      $.post( "/admindeleteuser", {adminuser: del})
+      .done(function( data ) {
+            alert( "Deleted User: " + data );
+			
+		 });
+	 });
+</script>
+
+
+
 
 
 
