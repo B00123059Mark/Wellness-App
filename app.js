@@ -338,7 +338,7 @@ app.post('/surveyData',function(req,res){
             output = output + surveycontent + '<br>';
             output = output + total + '<br>';
         }
-        res.write(output);
+        res.send(output);
     })
 });
 
@@ -374,7 +374,7 @@ app.post('/surveyNum', function(req,res){
 
 
 
-app.post('/getGraph', function(req,res){
+app.get('/getGraph', function(req,res){
 
 	// Connect to the database
     var mysql = require('mysql')
@@ -434,7 +434,7 @@ app.post('/getGraph', function(req,res){
 });
 
 
-app.post('/getGraph01', function(req,res){
+app.get('/getGraph01', function(req,res){
 
 	// Connect to the database
     var mysql = require('mysql')
@@ -490,7 +490,7 @@ app.post('/getGraph01', function(req,res){
 	
 });
 
-app.post('/getGraph02', function(req,res){
+app.get('/getGraph02', function(req,res){
 
 	// Connect to the database
     var mysql = require('mysql')
@@ -546,7 +546,7 @@ app.post('/getGraph02', function(req,res){
 	
 });
 
-app.post('/getGraph03', function(req,res){
+app.get('/getGraph03', function(req,res){
 
 	// Connect to the database
     var mysql = require('mysql')
@@ -602,7 +602,69 @@ app.post('/getGraph03', function(req,res){
 	
 });
 
+app.get('/admindisplaytable', (req, res, next) => {           //this is the code to initialize the table to display the database contents 
+ 					
 
+    var con = mysql.createConnection({  //connects to DB
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      port : 3306,
+      database : 'wellness'
+    									 //the name of my local DB
+
+  });
+  con.connect();
+
+  con.query('select * from users;', function (err, rows, fields) {			//groupinfo is the name of the table i used to store registered user values, username password etc
+  
+    if (err) throw err;
+
+    var content = '<table border="1" bgcolor="#2BC524">';                       //creating a variable called content to store the database table
+
+    for(var i=0; i< rows.length; i++){                                         //for loop to cycle through the query results 
+
+      content = content + '<tr>';
+      content = content + '<td>User:  '+ rows[i].student_id+ '<br></td>';                      //table data, setting it to be the results of the database query
+      content = content + '<td>Passowrd:  '+ rows[i].password+ '<br></td>';
+      content = content + '<td>Access level:  '+ rows[i].acctype+ '<br></td>';       //access level = user, staff role 
+      content = content + '</tr>';
+
+    }
+    content  = content + '</table>';
+    res.send(content)
+
+  });
+
+  con.end();
+
+
+});
+
+
+app.post('/admindeleteuser', function (req, res) {	
+  
+  
+  var user = req.body.adminuser;  
+  
+ var connection = mysql.createConnection({  //connects to DB
+      host     : 'localhost',
+      user     : 'root',
+      password : '',
+      port : 3306,
+      database : 'wellness'
+    									 //the name of my local DB
+
+  });
+  
+ 			
+
+      //this function will be used to delete users from the database if the admin wishes                       //gets the username inputted by the admin 
+  connection.query("DELETE FROM users WHERE student_id ='"+user+"'");  //if the value inputted by the admin matches a value in the groupinfo table, delete the database entry
+  console.log("ADMIN USER"+user);	
+
+con.end();  //log in the console for testing purposes
+});
 
 
 	  
